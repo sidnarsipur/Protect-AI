@@ -1,12 +1,46 @@
 package main
 
 import (
-	"github.com/sidnarsipur/protect-ai/bootstrap"
-	"github.com/sidnarsipur/protect-ai/lib"
-	"go.uber.org/fx"
+	"fmt"
+
+	"github.com/sidnarsipur/protect-ai/generate"
+	"github.com/sidnarsipur/protect-ai/models"
 )
 
 func main() {
-	logger := lib.GetLogger().GetFxLogger()
-	fx.New(bootstrap.Module, fx.Logger(logger)).Run()
+	permissions := []models.Permission{
+		{
+			Agent: "Googlebot",
+			AllowedPermission: models.PermissionBody{
+				Paths: []string{
+					"/",
+				},
+				FileTypes: models.FileTypes{
+					TextFileTypes: []models.TextFileType{
+						models.TextFileTypeTxt,
+					},
+					ImageFileTypes: []models.ImageFileType{
+						models.ImageFileTypeJpg,
+					},
+				},
+			},
+			DisallowedPermission: models.PermissionBody{
+				Paths: []string{
+					"/admin",
+				},
+				FileTypes: models.FileTypes{
+					TextFileTypes: []models.TextFileType{
+						models.TextFileTypePdf,
+					},
+					ImageFileTypes: []models.ImageFileType{
+						models.ImageFileTypePng,
+					},
+				},
+			},
+		},
+	}
+
+	permissionString := generate.SetPermissions(permissions)
+	fmt.Println(permissionString)
+
 }
