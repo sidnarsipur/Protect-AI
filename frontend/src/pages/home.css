@@ -1,0 +1,46 @@
+body {
+    background-color: #000000;
+}
+
+@keyframes flyAndStay {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+      color: rgb(0, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      color: rgb(255, 255, 255);
+    }
+  }
+  
+  .header {
+    margin-top: 100px;
+    text-align: center;
+    font-family: "Nunito", sans-serif;
+    font-weight: bold;
+    color: rgb(255, 255, 255); /* Pinkish color */
+    font-size: 36px;
+    animation: flyAndStay 2s ease-in-out;
+  }
+
+   /* Make the IonCard square and smaller */
+   .custom-card {
+    width: 150px; /* Adjust the size as needed */
+    height: 150px; /* Keep the same value to make it a square */
+    border-radius: 10px; /* Optional: Add rounded corners */
+  }
+
+  /* Add drop shadow to the IonCard */
+  .custom-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the shadow properties as needed */
+  }
+
+  /* Customize font and text style */
+  .custom-card ion-card-title,
+  .custom-card ion-card-subtitle,
+  .custom-card ion-card-content {
+    font-family: Arial, sans-serif; /* Use your preferred font-family */
+    font-weight: bold;
+    font-size: 16px; /* Adjust the font size as needed */
+  }
