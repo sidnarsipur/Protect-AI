@@ -1,16 +1,33 @@
 package main
 
-import "github.com/sidnarsipur/protect-ai/models"
+import (
+	"fmt"
+
+	"github.com/sidnarsipur/protect-ai/models"
+)
 
 func SetPermissions(permissions []models.Permission) string {
 	var permissionString string
 	for _, permission := range permissions {
 		permissionString += setAgentHeader(permission.Agent)
+
+		if permission.AllowAll {
+			permissionString += allowAll()
+			break
+		}
+
+		if permission.DisallowAll {
+			permissionString += disallowAll()
+			break
+		}
+
 		permissionString += allowFileTypes(permission.AllowedPermission.FileTypes)
 		permissionString += disallowFileTypes(permission.DisallowedPermission.FileTypes)
 		permissionString += allowPaths(permission.AllowedPermission.Paths)
 		permissionString += disallowPaths(permission.DisallowedPermission.Paths)
+		permissionString += setCrawlDelay(permission.CrawlDelay)
 	}
+
 	return permissionString
 }
 
@@ -32,7 +49,7 @@ func disallowPaths(paths []string) string {
 	var disallowString string
 
 	for _, path := range paths {
-		disallowString += "Disallow: " + path + "\n"
+		disallowString += "Disallow: " + path + "\n\n"
 	}
 
 	return disallowString
@@ -44,6 +61,10 @@ func allowAll() string {
 
 func disallowAll() string {
 	return "Disallow: /\n"
+}
+
+func setCrawlDelay(delay int) string {
+	return "Crawl-Delay: " + fmt.Sprint(delay) + "\n"
 }
 
 func allowFileTypes(fileTypes models.FileTypes) string {
