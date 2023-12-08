@@ -1,0 +1,27 @@
+
+User-Agent: Googlebot
+Allow: /
+Disallow: /
+Disallow: /*.jpg$
+Disallow: /*.txt$
+
+User-Agent: Bingbot
+Allow: /
+Disallow: /
+Disallow: /*.jpg$
+Disallow: /*.txt$
+
+User-Agent: msnbot
+Allow: /
+Disallow: /
+Disallow: /*.jpg$
+Disallow: /*.txt$
+
+User-Agent: FJFJ
+Allow: /
+Disallow: /
+Disallow: /*.jpg$
+Disallow: /*.txt$
+
+User-Agent: ChatGPTBot
+Disallow: /
