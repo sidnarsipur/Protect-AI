@@ -1,19 +1,25 @@
 User-Agent: * 
 Disallow: / 
 
-User-Agent: Googlebot
-Allow: /
-Disallow: /*.pdf$
-Disallow: /*.jpg$
+User-Agent: Google-Extended
+Disallow: /
 
-User-Agent: Bingbot
-Allow: /
-Disallow: /*.pdf$
-Disallow: /*.jpg$
+User-Agent: FacebookBot
+Disallow: /
 
-User-Agent: msnbot
-Allow: /
-Disallow: /*.pdf$
-Disallow: /*.jpg$
+User-Agent: GPTBot
+Disallow: /
+
+User-Agent: anthropic-ai
+Disallow: /
+
+User-Agent: anthropicAi
+Disallow: /
+
+User-Agent: CCBot
+Disallow: /
+
+User-Agent: Omgilibot
+Disallow: /
 
 Sitemap: www.hello.xml

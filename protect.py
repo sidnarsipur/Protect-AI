@@ -6,7 +6,7 @@ import sys
 
 import csv
 
-doc = """Usage: protect.py SITEMAP [--seoAllowed] [--blockAll] [--allowCrawler=Crawlers] [--disallowCrawler=Crawlers] [--allowFile=FileTypes] [--disallowFile=FileTypes] [--disallowDir=FileTypes]
+doc = """Usage: protect.py SITEMAP [--allowSEO] [--blockAll] [--blockTraining] [--allowCrawler=Crawlers] [--disallowCrawler=Crawlers] [--allowFile=FileTypes] [--disallowFile=FileTypes] [--disallowDir=FileTypes]
 """
 
 blockAll = ['User-Agent: * \n', 'Disallow: / \n']
@@ -42,8 +42,15 @@ def get_seo_crawlers(crawlers):
   for crawler in crawlers:
     if crawler["Type"] == "seo":
       seo_crawler.append(crawler["User-Agent"])
+
+def get_training_crawlers(crawlers):
+  training_crawler = []
+
+  for crawler in crawlers:
+    if crawler["Type"] == "training":
+      training_crawler.append(crawler["User-Agent"])
   
-  return seo_crawler
+  return training_crawler
 
 def get_crawler_string(crawler='', d_dirs=[], a_files=[], d_files=[], type=''):
 
@@ -71,7 +78,9 @@ def get_crawler_string(crawler='', d_dirs=[], a_files=[], d_files=[], type=''):
 def write_robot(args, crawlers):
   sitemap = validate_sitemap(args['SITEMAP'])
   a_crawlers, d_crawlers, a_files, d_files, d_dirs = parse_args(args['--allowCrawler'],args['--disallowCrawler'], args['--allowFile'], args['--disallowFile'], args['--disallowDir'])
+  
   seo_crawlers = get_seo_crawlers(crawlers)
+  training_crawlers = get_training_crawlers(crawlers)
 
   with open("robots.txt", "w+") as robot:
     if args['--blockAll']:
@@ -79,10 +88,13 @@ def write_robot(args, crawlers):
     else:
       robot.writelines(get_crawler_string("*", d_dirs, [], d_files, 'allow'))
 
-    if args['--seoAllowed']:
-      for crawler in crawlers:
+    for crawler in crawlers:
+      if args['--allowSEO']:
         if crawler['User-Agent'] in seo_crawlers:
           robot.writelines(get_crawler_string(crawler['User-Agent'], d_dirs, a_files, d_files, 'seo'))
+      if args['--blockTraining']:
+        if crawler['User-Agent'] in training_crawlers:
+          robot.writelines(get_crawler_string(crawler['User-Agent']))
 
     for crawler in a_crawlers:
       robot.writelines(get_crawler_string(crawler, d_dirs, a_files, d_files, 'allow'))
